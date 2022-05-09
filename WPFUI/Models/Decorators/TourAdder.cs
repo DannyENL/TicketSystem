@@ -18,7 +18,7 @@ namespace WPFUI.Models
 
         public override double Cost()
         {
-            return .20 + _ticket.Cost();
+            return 20 + _ticket.Cost();
         }
 
     }

@@ -14,11 +14,11 @@ namespace WPFUI.Models
         {
             _ticket = ticket;
         }
-        public override string TicketDisplay => _ticket.TicketDisplay + "\n+ FRONT ROW SEATS";
+        public override string TicketDisplay => _ticket.TicketDisplay + "\n+ FRONT ROW SEAT";
 
         public override double Cost()
         {
-            return .20 + _ticket.Cost();
+            return 15 + _ticket.Cost();
         }
 
     }

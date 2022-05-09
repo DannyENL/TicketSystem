@@ -20,7 +20,9 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
-            <RowDefinition Height="120"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="20"/>
@@ -30,12 +32,16 @@
         <ComboBox x:Name="Categories" Grid.Row="1" Grid.Column="1" DisplayMemberPath="Name" SelectedItem="{Binding Path=Category, Mode=TwoWay}">
         </ComboBox>
 
-        <Button x:Name="AddPieAndPint" Grid.Row="2" IsEnabled="{Binding PieButtonAvailable}" Grid.Column="1">Add Pie and Pint</Button>
-        <Button x:Name="AddTour" Grid.Row="3" IsEnabled="{Binding TourButtonAvailable}" Grid.Column="1">Add Tour</Button>
-        <Button x:Name="AddFrontRowSeats" Grid.Row="4" IsEnabled="{Binding FrontButtonAvailable}" Grid.Column="1">Add Front Row Seats</Button>
+        <Button x:Name="AddPieAndPint" Grid.Row="2" IsEnabled="{Binding PieButtonAvailable}" Grid.Column="1">Add Pie and Pint +£12.50</Button>
+        <Button x:Name="AddTour" Grid.Row="3" IsEnabled="{Binding TourButtonAvailable}" Grid.Column="1">Add Tour +£15</Button>
+        <Button x:Name="AddFrontRowSeats" Grid.Row="4" IsEnabled="{Binding FrontButtonAvailable}" Grid.Column="1">Add Front Row Seat +£20</Button>
 
-        <Button x:Name="Print" Grid.Row="6" Grid.Column="1" IsEnabled="{Binding PrintButtonAvailable}">Print Ticket</Button>
-        <Button x:Name="Reset" Grid.Row="7" Grid.Column="1" IsEnabled="{Binding ResetButtonAvailable}">Reset</Button>
+        <Slider x:Name="QuantitySlider" Maximum="20" IsEnabled="{Binding SliderAvailable}" Minimum="1" Value="{Binding  Path=Quantity, Mode=TwoWay}" Grid.Row="5" Grid.Column="1"/>
+        <TextBlock Grid.Row="6" TextAlignment="Center" Grid.Column="1" Text="{Binding Path=Quantity, StringFormat='Quantity x{0}'}" />
+        <TextBlock Grid.Row="7" TextAlignment="Center" Grid.Column="1" Text="{Binding Path=TicketPrice, StringFormat='Price £{0}'}" />
+
+        <Button x:Name="Print" Grid.Row="8" Grid.Column="1" IsEnabled="{Binding PrintButtonAvailable}">Print</Button>
+        <Button x:Name="Reset" Grid.Row="9" Grid.Column="1" IsEnabled="{Binding ResetButtonAvailable}">Reset</Button>
         
         <Border Grid.Row="1" Grid.Column="3" Grid.RowSpan="6" BorderThickness="1" Visibility="{Binding TicketPrinted}"  BorderBrush="Black">
             <TextBlock x:Name="FullTicket" Grid.Row="1" Grid.Column="3" Grid.RowSpan="6"></TextBlock>

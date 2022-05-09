@@ -12,16 +12,26 @@ namespace WPFUI.ViewModels
     {
         public ShellViewModel()
         {
-            Categories.Add(new CategoryModel { Name = "Child Ticket" , Ticket = new ChildTicket()});
-            Categories.Add(new CategoryModel { Name = "Adult Ticket", Ticket = new AdultTicket()});
-            Categories.Add(new CategoryModel { Name = "Member Ticket", Ticket = new MemberTicket()});
+            Categories.Add(new CategoryModel { Name = "Child Ticket - £5" , Ticket = new ChildTicket()});
+            Categories.Add(new CategoryModel { Name = "Adult Ticket - £10", Ticket = new AdultTicket()});
+            Categories.Add(new CategoryModel { Name = "Member Ticket - £7.50", Ticket = new MemberTicket()});
+        }
+
+        private int _quantity = 0;
+        public int Quantity
+        {
+            get { return _quantity; } set { _quantity = value; NotifyOfPropertyChange(() => Quantity); NotifyOfPropertyChange(() => TicketPrice); NotifyOfPropertyChange(() => FullTicket); }
         }
 
         private TicketModel Ticket;
-
         public string FullTicket
         {
-            get { if (Ticket != null) { return Ticket.TicketDisplay; } else { return ""; } }
+            get { if (Ticket != null) { return Ticket.TicketDisplay+"\nx "+Quantity; } else { return ""; } }
+        }
+
+        public double TicketPrice
+        {
+            get { if (Ticket != null) { return Ticket.Cost()*Quantity; } else { return 0; } }
         }
 
         private CategoryModel _category;
@@ -37,11 +47,14 @@ namespace WPFUI.ViewModels
                 }
                 ResetButtonAvailable = true;
                 PieButtonAvailable = true;
+                SliderAvailable = true;
                 TourButtonAvailable = true;
                 TicketPrinted = "Hidden";
+                Quantity = 1;
                 FrontButtonAvailable = true;
                 PrintButtonAvailable = true;
                 NotifyOfPropertyChange(() => FullTicket);
+                NotifyOfPropertyChange(() => TicketPrice);
                 NotifyOfPropertyChange(() => Category);
             }
         }
@@ -119,6 +132,18 @@ namespace WPFUI.ViewModels
             }
         }
 
+        private Boolean _sliderAvailable = false;
+        public Boolean SliderAvailable
+        {
+            get { return _sliderAvailable; }
+            set
+            {
+                _sliderAvailable = value;
+                NotifyOfPropertyChange(() => SliderAvailable);
+            }
+        }
+
+
         public void Reset()
         {
             Category = null;
@@ -127,7 +152,13 @@ namespace WPFUI.ViewModels
             PrintButtonAvailable = false;
             PieButtonAvailable = false;
             TourButtonAvailable = false;
+            Quantity = 0;
+            SliderAvailable = false;
             FrontButtonAvailable = false;
+            Ticket = null;
+            NotifyOfPropertyChange(() => Ticket);
+            NotifyOfPropertyChange(() => FullTicket);
+            NotifyOfPropertyChange(() => TicketPrice);
         }
 
         public void AddPieAndPint()
@@ -135,6 +166,7 @@ namespace WPFUI.ViewModels
             PieButtonAvailable = false;
             Ticket = new PieAdder(Ticket);
             NotifyOfPropertyChange(() => FullTicket);
+            NotifyOfPropertyChange(() => TicketPrice);
         }
 
         public void AddTour()
@@ -142,6 +174,7 @@ namespace WPFUI.ViewModels
             TourButtonAvailable = false;
             Ticket = new TourAdder(Ticket);
             NotifyOfPropertyChange(() => FullTicket);
+            NotifyOfPropertyChange(() => TicketPrice);
         }
 
         public void AddFrontRowSeats()
@@ -149,12 +182,14 @@ namespace WPFUI.ViewModels
             FrontButtonAvailable = false;
             Ticket = new FrontAdder(Ticket);
             NotifyOfPropertyChange(() => FullTicket);
+            NotifyOfPropertyChange(() => TicketPrice);
         }
 
         public void Print()
         {
             TourButtonAvailable = false;
             PieButtonAvailable = false;
+            SliderAvailable = false;
             ResetButtonAvailable = true;
             PrintButtonAvailable = false;
             FrontButtonAvailable = false;

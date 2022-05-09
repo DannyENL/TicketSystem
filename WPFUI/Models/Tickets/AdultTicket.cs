@@ -15,7 +15,7 @@ namespace WPFUI.Models
 
         public override double Cost()
         {
-            return 1.99;
+            return 10;
         }
 
     }

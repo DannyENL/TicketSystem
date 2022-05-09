@@ -10,6 +10,6 @@ namespace WPFUI.Models
     {
         public virtual string TicketDisplay { get; protected set; } = "";
         public abstract double Cost();
-        
+
     }
 }
