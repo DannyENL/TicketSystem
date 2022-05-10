@@ -7,44 +7,47 @@
         mc:Ignorable="d" FontSize="18"
         Title="ShellView" Height="450" Width="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="430"/>
-            <ColumnDefinition Width="20"/>            
+
+        <Grid.Background> <!--Used to display the background image-->
+            <ImageBrush ImageSource="background.png"/> <!--Path to the background image-->
+        </Grid.Background>
+
+        <Grid.ColumnDefinitions> <!--Sets how many columns are in the grid-->
+            <ColumnDefinition Width="20"/> <!--Leftmost padding column -->
+            <ColumnDefinition Width="300"/> <!--The column with all the buttons in-->
+            <ColumnDefinition Width="50"/> <!--Padding between buttons and ticket display-->
+            <ColumnDefinition Width="380"/> <!--Ticket display-->
+            <ColumnDefinition Width="20"/> <!--Rightmost padding column-->  
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="20"/>
+        <Grid.RowDefinitions> <!--Sets how many rows are in the grid-->
+            <RowDefinition Height="20"/> <!--Top padding row-->
+            <RowDefinition Height="40"/> <!--Dropdown row-->
+            <RowDefinition Height="40"/> <!--Pie and pint row-->
+            <RowDefinition Height="40"/> <!--Tour row-->
+            <RowDefinition Height="40"/> <!--Front row seat row-->
+            <RowDefinition Height="40"/> <!--Slider row-->
+            <RowDefinition Height="40"/> <!--Quantity display row-->
+            <RowDefinition Height="40"/> <!--Price row-->
+            <RowDefinition Height="40"/> <!--Print row-->
+            <RowDefinition Height="40"/> <!--Reset row-->
+            <RowDefinition Height="20"/> <!--Bottom padding row-->
         </Grid.RowDefinitions>
 
+        <ComboBox x:Name="Categories" Grid.Row="1" Grid.Column="1" FontFamily="Century Gothic" DisplayMemberPath="Name" SelectedItem="{Binding Path=Category, Mode=TwoWay}"></ComboBox><!--Dropdown box for selecting category. List of items is bound to Categories variable, currently selected option is bound to Category variable.-->
 
-        <ComboBox x:Name="Categories" Grid.Row="1" Grid.Column="1" DisplayMemberPath="Name" SelectedItem="{Binding Path=Category, Mode=TwoWay}">
-        </ComboBox>
+        <Button x:Name="AddPieAndPint" Grid.Row="2" FontFamily="Century Gothic" IsEnabled="{Binding PieButtonAvailable}" Grid.Column="1">Add Pie and Pint +£12.50</Button> <!--Button for adding a pie and a pint to your ticket. Whether the button can be used is bound to the PieButtonAvailable boolean variable. When the button is pressed, the AddPieAndPint function is executed.-->
+        <Button x:Name="AddTour" Grid.Row="3" FontFamily="Century Gothic" IsEnabled="{Binding TourButtonAvailable}" Grid.Column="1">Add Tour +£15</Button> <!--Button for adding a tour of the grounds to your ticket. Whether the button can be used is bound to the TourButtonAvailable boolean variable. When the button is pressed, the AddTour function is executed.-->
+        <Button x:Name="AddFrontRowSeats" Grid.Row="4" FontFamily="Century Gothic" IsEnabled="{Binding FrontButtonAvailable}" Grid.Column="1">Add Front Row Seat +£20</Button> <!--Button for adding front row seats to your ticket. Whether the button can be used is bound to the FrontButtonAvailable boolean variable. When the button is pressed, the AddFrontRowSeats function is executed.-->
 
-        <Button x:Name="AddPieAndPint" Grid.Row="2" IsEnabled="{Binding PieButtonAvailable}" Grid.Column="1">Add Pie and Pint +£12.50</Button>
-        <Button x:Name="AddTour" Grid.Row="3" IsEnabled="{Binding TourButtonAvailable}" Grid.Column="1">Add Tour +£15</Button>
-        <Button x:Name="AddFrontRowSeats" Grid.Row="4" IsEnabled="{Binding FrontButtonAvailable}" Grid.Column="1">Add Front Row Seat +£20</Button>
+        <Slider x:Name="QuantitySlider" VerticalAlignment="Center" Maximum="20" IsEnabled="{Binding SliderAvailable}" Minimum="1" Value="{Binding  Path=Quantity, Mode=TwoWay}" Grid.Row="5" Grid.Column="1"/> <!--Slider used for adjusting quantities. The value is bound to the Quantity variable. VerticalAlignment centers the element within its row.-->
+        <TextBlock Foreground="White" Grid.Row="6" FontFamily="Century Gothic" FontStyle="Italic" TextAlignment="Center" Grid.Column="1" Text="{Binding Path=Quantity, StringFormat='Quantity x{0}'}" /> <!--Text display of current quantity. The contents is bound to the Quantity variable. Formatting is used to add "Quantity x" text.-->
+        <TextBlock Foreground="White" Grid.Row="7" FontFamily="Century Gothic" FontStyle="Italic" TextAlignment="Center" Grid.Column="1" Text="{Binding Path=TicketPrice, StringFormat='Price £{0}'}" /> <!--Text display of current price. The contents is bound to the TicketPrice variable. Formatting is used to add "Price £" text.-->
 
-        <Slider x:Name="QuantitySlider" Maximum="20" IsEnabled="{Binding SliderAvailable}" Minimum="1" Value="{Binding  Path=Quantity, Mode=TwoWay}" Grid.Row="5" Grid.Column="1"/>
-        <TextBlock Grid.Row="6" TextAlignment="Center" Grid.Column="1" Text="{Binding Path=Quantity, StringFormat='Quantity x{0}'}" />
-        <TextBlock Grid.Row="7" TextAlignment="Center" Grid.Column="1" Text="{Binding Path=TicketPrice, StringFormat='Price £{0}'}" />
-
-        <Button x:Name="Print" Grid.Row="8" Grid.Column="1" IsEnabled="{Binding PrintButtonAvailable}">Print</Button>
-        <Button x:Name="Reset" Grid.Row="9" Grid.Column="1" IsEnabled="{Binding ResetButtonAvailable}">Reset</Button>
+        <Button x:Name="Print" Grid.Row="8" Grid.Column="1" FontFamily="Century Gothic" IsEnabled="{Binding PrintButtonAvailable}">Print</Button> <!--Button used to print ticket. Whether the button can be used is bound to the TourButtonAvailable boolean variable. When the button is pressed, the Print function is executed.-->        
+        <Button x:Name="Reset" Grid.Row="9" Grid.Column="1" FontFamily="Century Gothic" IsEnabled="{Binding ResetButtonAvailable}">Reset</Button> <!--Button used to reset everything. Whether the button can be used is bound to the ResetButtonAvailable boolean variable. When the button is pressed, the Reset function is executed.-->
         
-        <Border Grid.Row="1" Grid.Column="3" Grid.RowSpan="6" BorderThickness="1" Visibility="{Binding TicketPrinted}"  BorderBrush="Black">
-            <TextBlock x:Name="FullTicket" Grid.Row="1" Grid.Column="3" Grid.RowSpan="6"></TextBlock>
+        <Border Grid.Row="1" Grid.Column="3" Grid.RowSpan="6" BorderThickness="1" Visibility="{Binding TicketPrinted}"  BorderBrush="Black"> <!--Border used for black outline on ticket window. Whether the ticket window is visibile is bound to the TicketPrinted boolean variable.-->
+            <TextBlock Background="White" x:Name="FullTicket" Grid.Row="1" Grid.Column="3" Grid.RowSpan="6"></TextBlock> <!--The contents of this TextBlock is bound to the FullTicket variable. The expanded row spawn allows this item to take up multiple rows.-->
         </Border>
 
     </Grid>

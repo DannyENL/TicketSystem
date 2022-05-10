@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace WPFUI.Models
 {
-    public class AdultTicket : TicketModel
+    public class AdultTicket : TicketModel //Inherits from the TicketModel abstract class
     {
-        public AdultTicket()
+        public AdultTicket() //Constructor function executed when an instance of this class is created
         {
-            TicketDisplay = "===========\nADULT TICKET\n===========";
+            TicketDisplay = "===========\nADULT TICKET\n==========="; //Sets the ticket display string
         }
 
-        public override double Cost()
+        public override double Cost() //Overrides the cost method
         {
-            return 10;
+            return 10; //The cost of an adult ticket is £10
         }
 
     }
